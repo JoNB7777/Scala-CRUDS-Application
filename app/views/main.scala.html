@@ -1,0 +1,41 @@
+@(title: String)(content: Html)(implicit request: Request[AnyContent])
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>@title</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/main.js")" type="text/javascript"></script>
+    </head>
+    <body id="main">
+
+        <header class="container">
+            <nav>
+                <a href="/" class="LinkButton">Homepage</a>
+                <a href="/recipe" class="LinkButton">Add Recipe</a>
+                @if(request.session.get("username").isEmpty){
+                    <a href="/login" class="LinkButton">Login page</a>
+                }
+            </nav>
+            <br>
+        </header>
+
+
+
+        <div id="loggedIn">
+            <h3>Logged in as: @request.session.get("username")
+                @if(request.session.get("username").isDefined) {
+                    <form method="POST" action="/logout" >
+                        <button type="submit">Logout</button>
+                    </form>
+                }
+            </h3>
+        </div>
+
+        @content
+
+    </body>
+</html>
